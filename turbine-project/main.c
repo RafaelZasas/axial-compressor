@@ -12,6 +12,7 @@
 
 #define LED_PIN 14
 #define POT_PIN 26
+#define SWITCH 26
 
 float map(long x, long in_min, long in_max, long out_min, long out_max) {
 	return (x - in_min) * (out_max - out_min)/ (in_max - in_min) + out_min;
@@ -35,12 +36,16 @@ int main() {
     pwm_set_chan_level(slice_num, PWM_CHAN_A, 0);
     pwm_set_enabled(slice_num, true);
 
+    gpio_set_dir(SWITCH, GPIO_IN)
+
 
  
     while (1) {
         // 12-bit conversion, assume max value == ADC_VREF == 3.3 V
         uint16_t result = adc_read();
 	    long pwm_value = map(result, 0, 4095, 0, 255);
+        uint switch_value = gpio_get(SWITCH)
+        printf("Switch: %d \n", switch_value)
 
         printf("Raw value: %d \n PWM: %d \n", result, pwm_value);
 
